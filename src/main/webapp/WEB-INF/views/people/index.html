@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All peoples</title>
+</head>
+<body>
+<form th:method="GET" th:action="@{/start}">
+    <input type="submit" value="Back"/>
+</form>
+<div th:each="people : ${peoples}">
+    <div th:text="${people.getFullName()}">VALUES</div>
+</div>
+</body>
+</html>

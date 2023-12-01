@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All books</title>
+</head>
+<body>
+<form th:method="GET" th:action="@{/start}">
+    <input type="submit" value="Back"/>
+</form>
+<div th:each="book : ${books}">
+    <div th:text="${book.getName() + ' ' + book.getDob()}">VALUES</div>
+</div>
+</body>
+</html>

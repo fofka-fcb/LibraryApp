@@ -8,8 +8,12 @@
 <form th:method="GET" th:action="@{/start}">
     <input type="submit" value="Back"/>
 </form>
+<form th:method="GET" th:action="@{/people/new}">
+    <input type="submit" value="New people"/>
+</form>
 <div th:each="people : ${peoples}">
-    <div th:text="${people.getFullName()}">VALUES</div>
+    <a th:href="@{/people/{id}(id=${people.getId()})}"
+       th:text="${people.getFullName()}"></a>
 </div>
 </body>
 </html>

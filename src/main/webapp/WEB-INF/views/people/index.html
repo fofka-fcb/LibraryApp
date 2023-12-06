@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All peoples</title>
+    <title>All people</title>
 </head>
 <body>
 <form th:method="GET" th:action="@{/start}">
@@ -13,7 +13,7 @@
 </form>
 <div th:each="people : ${peoples}">
     <a th:href="@{/people/{id}(id=${people.getId()})}"
-       th:text="${people.getFullName()}"></a>
+       th:text="${people.getFullName() + ' ' + people.getDob()}"></a>
 </div>
 </body>
 </html>

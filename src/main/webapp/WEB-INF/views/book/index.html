@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>All books</title>
@@ -8,8 +8,12 @@
 <form th:method="GET" th:action="@{/start}">
     <input type="submit" value="Back"/>
 </form>
+<form th:method="GET" th:action="@{/book/new}">
+    <input type="submit" value="New book"/>
+</form>
 <div th:each="book : ${books}">
-    <div th:text="${book.getName() + ' ' + book.getDob()}">VALUES</div>
+    <a th:href="@{/book/{id}(id=${book.getId()})}"
+       th:text="${book.getName() + ' ' + book.getAuthor() + ' ' + book.getDob()}"></a>
 </div>
 </body>
 </html>

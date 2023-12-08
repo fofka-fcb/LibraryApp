@@ -29,6 +29,10 @@ public class BookDAO {
                 .stream().findAny().orElse(null);
     }
 
+    public List<Book> showAllPeopleBook(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE people_id=?", new Object[]{id}, new BookMapper());
+    }
+
     public void save(Book book) {
         jdbcTemplate.update("INSERT INTO Book (people_id, name, author, dob) VALUES (?, ?, ?, ?)",
                 null,
@@ -49,4 +53,5 @@ public class BookDAO {
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
     }
+
 }

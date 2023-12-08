@@ -17,5 +17,9 @@
 <p th:text="${people.getId()}">VALUE</p>
 <p th:text="${people.getFullName()}">VALUE</p>
 <p th:text="${people.getDob()}">VALUE</p>
+<p>Книги на руках: </p>
+<div th:each="book : ${books}">
+    <P th:text="${book.getName() + ' ' + book.getAuthor() + ' ' + book.getDob()}"></P>
+</div>
 </body>
 </html>

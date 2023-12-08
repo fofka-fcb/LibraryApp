@@ -3,18 +3,23 @@ package ru.myPackage.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.myPackage.dao.BookDAO;
+import ru.myPackage.dao.PeopleDAO;
 import ru.myPackage.models.Book;
 
 @Controller
 @RequestMapping("/book")
 public class BookController {
 
+    private final PeopleDAO peopleDAO;
+
     private final BookDAO bookDAO;
 
     @Autowired
-    public BookController(BookDAO bookDAO) {
+    public BookController(PeopleDAO peopleDAO, BookDAO bookDAO) {
+        this.peopleDAO = peopleDAO;
         this.bookDAO = bookDAO;
     }
 
@@ -42,15 +47,16 @@ public class BookController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editBook(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book", bookDAO.show(id));
+    public String editBook(ModelMap modelMap, @PathVariable("id") int id) {
+        modelMap.addAttribute("book", bookDAO.show(id));
+        modelMap.addAttribute("peoples", peopleDAO.indexAllPeople());
         return "book/edit";
     }
 
     @PatchMapping("/{id}/update")
     public String update(@ModelAttribute("book") Book book, @PathVariable("id") int id) {
         bookDAO.update(book, id);
-        return "redirect:/book";
+        return "redirect:/book/{id}";
     }
 
     @DeleteMapping("/{id}")

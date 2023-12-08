@@ -4,7 +4,9 @@ package ru.myPackage.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import ru.myPackage.dao.BookDAO;
 import ru.myPackage.dao.PeopleDAO;
 import ru.myPackage.models.People;
 
@@ -14,9 +16,12 @@ public class PeopleController {
 
     private final PeopleDAO peopleDAO;
 
+    private final BookDAO bookDAO;
+
     @Autowired
-    public PeopleController(PeopleDAO peopleDAO) {
+    public PeopleController(PeopleDAO peopleDAO, BookDAO bookDAO) {
         this.peopleDAO = peopleDAO;
+        this.bookDAO = bookDAO;
     }
 
     @GetMapping
@@ -26,8 +31,9 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("people", peopleDAO.show(id));
+    public String show(@PathVariable("id") int id, ModelMap modelMap) {
+        modelMap.addAttribute("people", peopleDAO.show(id));
+        modelMap.addAttribute("books", bookDAO.showAllPeopleBook(id));
         return "people/show";
     }
 

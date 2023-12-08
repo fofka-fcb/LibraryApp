@@ -21,8 +21,10 @@
     <label for="dob">Enter date of book</label>
     <input type="text" th:field="*{dob}" id="dob"/>
     <br/>
-    <label for="idOfPeople">Enter id of people</label>
-    <input type="text" th:field="*{peopleID}" id="idOfPeople"/>
+    <label for="idOfPeople">Select id of people</label>
+    <select th:object="${book}" th:field="*{peopleID}" id="idOfPeople">
+        <option th:each="people : ${peoples}" th:value="${people.getId()}" th:text="${people.getId() + ' ' + people.getFullName()}">VALUE</option>
+    </select>
     <br/>
     <input type="submit" value="Update people!"/>
 </form>

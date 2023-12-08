@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.myPackage.models.Book;
 import ru.myPackage.models.People;
 
 import java.util.List;
@@ -19,6 +20,10 @@ public class PeopleDAO {
     }
 
     public List<People> index() {
+        return jdbcTemplate.query("SELECT * FROM People WHERE id != 1 ORDER BY id", new BeanPropertyRowMapper<>(People.class));
+    }
+
+    public List<People> indexAllPeople() {
         return jdbcTemplate.query("SELECT * FROM People ORDER BY id", new BeanPropertyRowMapper<>(People.class));
     }
 
@@ -43,6 +48,5 @@ public class PeopleDAO {
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM People WHERE id=?", id);
     }
-
 
 }

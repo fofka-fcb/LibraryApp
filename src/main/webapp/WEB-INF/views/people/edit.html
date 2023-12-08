@@ -9,14 +9,16 @@
     <input type="submit" value="Back"/>
 </form>
 <form th:method="PATCH" th:action="@{/people/{id}/update(id=${people.getId()})}" th:object="${people}">
+    <label for="id"></label>
+    <input type="hidden" th:field="*{id}" id="id"/>
     <br/>
     <label for="fullName">Enter full name</label>
     <input type="text" th:field="*{fullName}" id="fullName"/>
-    <!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>-->
+    <div style="color: red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Full name error</div>
     <br/>
     <label for="dob">Enter date of birthday</label>
     <input type="text" th:field="*{dob}" id="dob"/>
-    <!--    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
+    <div style="color: red" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Date of birthday error</div>
     <br/>
     <input type="submit" value="Update people!"/>
 </form>

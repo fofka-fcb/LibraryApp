@@ -1,10 +1,12 @@
 package ru.myPackage.controllers;
 
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.myPackage.dao.BookDAO;
 import ru.myPackage.dao.PeopleDAO;
@@ -26,14 +28,19 @@ public class PeopleController {
 
     @GetMapping
     public String peopleIndex(Model model) {
+
         model.addAttribute("peoples", peopleDAO.index());
+
         return "people/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, ModelMap modelMap) {
+    public String show(@PathVariable("id") int id,
+                       ModelMap modelMap) {
+
         modelMap.addAttribute("people", peopleDAO.show(id));
         modelMap.addAttribute("books", bookDAO.showAllPeopleBook(id));
+
         return "people/show";
     }
 
@@ -43,26 +50,41 @@ public class PeopleController {
     }
 
     @PostMapping
-    public String createPeople(@ModelAttribute("people") People people) {
+    public String createPeople(@ModelAttribute("people") @Valid People people,
+                               BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) return "people/new";
+
         peopleDAO.save(people);
+
         return "redirect:/people";
     }
 
     @GetMapping("/{id}/edit")
     public String editPeople(Model model, @PathVariable("id") int id) {
+
         model.addAttribute("people", peopleDAO.show(id));
+
         return "people/edit";
     }
 
     @PatchMapping("/{id}/update")
-    public String update(@ModelAttribute("people") People people, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("people") @Valid People people,
+                         BindingResult bindingResult,
+                         @PathVariable("id") int id) {
+
+        if (bindingResult.hasErrors()) return "people/edit";
+
         peopleDAO.update(people, id);
+
         return "redirect:/people";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
+
         peopleDAO.delete(id);
+
         return "redirect:/people";
     }
 }

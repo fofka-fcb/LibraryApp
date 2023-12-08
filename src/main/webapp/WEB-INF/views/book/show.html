@@ -15,8 +15,28 @@
     <input type="submit" value="Delete book"/>
 </form>
 <p th:text="${'ID: ' + book.getId()}">VALUE</p>
-<p th:if="${book.getPeopleID() le 1}" th:text="${'ID of people: book in library'}">VALUE</p>
-<p th:if="${book.getPeopleID() gt 1}" th:text="${'ID of people: ' + book.getPeopleID()}">VALUE</p>
+<div th:if="${book.getPeopleID() le 1}">
+    <p th:text="'ID of people: book in library'"></p>
+    <div>
+        <form th:method="PATCH" th:action="@{/book/{id}/updateId(id=${book.getId()})}">
+            <label for="idOfPeople">Select id of people</label>
+            <select th:object="${book}" th:field="*{peopleID}" id="idOfPeople">
+                <option th:each="people : ${peoples}" th:value="${people.getId()}"
+                        th:text="${people.getId() + ' ' + people.getFullName()}">VALUE
+                </option>
+            </select>
+            <input type="submit" value="Select person"/>
+        </form>
+    </div>
+</div>
+<div th:if="${book.getPeopleID() gt 1}">
+    <p th:text="${'ID of people: ' + book.getPeopleID()}"></p>
+    <div>
+        <form th:method="PATCH" th:action="@{/book/{id}/freeBook(id=${book.getId()})}" th:object="${book}">
+            <input type="submit" value="Free the book"/>
+        </form>
+    </div>
+</div>
 <p th:text="${'Name of book: ' + book.getName()}">VALUE</p>
 <p th:text="${'Author of book: ' + book.getAuthor()}">VALUE</p>
 <p th:text="${'Date of issue: ' + book.getDob()}">VALUE</p>

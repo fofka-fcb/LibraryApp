@@ -30,9 +30,23 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("book", bookDAO.show(id));
+    public String show(@PathVariable("id") int id, ModelMap modelMap) {
+        modelMap.addAttribute("book", bookDAO.show(id));
+        modelMap.addAttribute("peoples", peopleDAO.index());
         return "book/show";
+    }
+
+    @PatchMapping("/{id}/updateId")
+    public String updateId(@PathVariable("id") int id, @ModelAttribute("book") Book book) {
+        bookDAO.updateId(book, id);
+        return "redirect:/book/{id}";
+    }
+
+    @PatchMapping("/{id}/freeBook")
+    public String freeBook(@PathVariable("id") int id, @ModelAttribute("book") Book book) {
+        book.setPeopleID(1);
+        bookDAO.updateId(book, id);
+        return "redirect:/book/{id}";
     }
 
     @GetMapping("/new")

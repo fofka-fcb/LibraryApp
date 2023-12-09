@@ -9,24 +9,29 @@
     <input type="submit" value="Back"/>
 </form>
 <form th:method="PATCH" th:action="@{/book/{id}/update(id=${book.getId()})}" th:object="${book}">
+    <label for="id"></label>
+    <input type="hidden" th:field="*{id}" id="id"/>
+    <label for="peopleID"></label>
+    <input type="hidden" th:field="*{peopleID}" id="peopleID"/>
     <br/>
     <label for="name">Enter name</label>
     <input type="text" th:field="*{name}" id="name"/>
-    <!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>-->
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Title has error</div>
     <br/>
     <label for="author">Enter name of author</label>
     <input type="text" th:field="*{author}" id="author"/>
-    <!--    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
+    <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author name has error</div>
     <br/>
     <label for="dob">Enter date of book</label>
     <input type="text" th:field="*{dob}" id="dob"/>
+    <div style="color: red" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Year has error</div>
     <br/>
-    <label for="idOfPeople">Select id of people</label>
-    <select th:object="${book}" th:field="*{peopleID}" id="idOfPeople">
-        <option th:each="people : ${peoples}" th:value="${people.getId()}" th:text="${people.getId() + ' ' + people.getFullName()}">VALUE</option>
-    </select>
-    <br/>
-    <input type="submit" value="Update people!"/>
+<!--    <label for="idOfPeople">Select id of people</label>-->
+<!--    <select th:object="${book}" th:field="*{peopleID}" id="idOfPeople">-->
+<!--        <option th:each="people : ${peoples}" th:value="${people.getId()}" th:text="${people.getId() + ' ' + people.getFullName()}">VALUE</option>-->
+<!--    </select>-->
+<!--    <br/>-->
+    <input type="submit" value="Update book!"/>
 </form>
 </body>
 </html>

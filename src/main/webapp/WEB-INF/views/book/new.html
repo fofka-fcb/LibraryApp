@@ -12,18 +12,16 @@
     <br/>
     <label for="name">Enter name</label>
     <input type="text" th:field="*{name}" id="name"/>
-    <!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>-->
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Title has error</div>
     <br/>
     <label for="author">Enter name of author</label>
     <input type="text" th:field="*{author}" id="author"/>
-    <!--    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
+    <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author name has error</div>
     <br/>
     <label for="dob">Enter date of book</label>
     <input type="text" th:field="*{dob}" id="dob"/>
+    <div style="color: red" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Year has error</div>
     <br/>
-<!--    <label for="idOfPeople">Enter id of people</label>-->
-<!--    <input type="text" th:field="*{peopleID}" id="idOfPeople"/>-->
-<!--    <br/>-->
     <input type="submit" value="Save book!"/>
 </form>
 </body>

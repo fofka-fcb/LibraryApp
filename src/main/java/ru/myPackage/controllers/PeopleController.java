@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.myPackage.dao.BookDAO;
 import ru.myPackage.dao.PeopleDAO;
 import ru.myPackage.models.People;
+import ru.myPackage.utils.PeopleValidator;
 
 @Controller
 @RequestMapping("/people")
@@ -20,10 +21,13 @@ public class PeopleController {
 
     private final BookDAO bookDAO;
 
+    private final PeopleValidator peopleValidator;
+
     @Autowired
-    public PeopleController(PeopleDAO peopleDAO, BookDAO bookDAO) {
+    public PeopleController(PeopleDAO peopleDAO, BookDAO bookDAO, PeopleValidator peopleValidator) {
         this.peopleDAO = peopleDAO;
         this.bookDAO = bookDAO;
+        this.peopleValidator = peopleValidator;
     }
 
     @GetMapping
@@ -53,6 +57,8 @@ public class PeopleController {
     public String createPeople(@ModelAttribute("people") @Valid People people,
                                BindingResult bindingResult) {
 
+        peopleValidator.validate(people, bindingResult);
+
         if (bindingResult.hasErrors()) return "people/new";
 
         peopleDAO.save(people);
@@ -72,6 +78,9 @@ public class PeopleController {
     public String update(@ModelAttribute("people") @Valid People people,
                          BindingResult bindingResult,
                          @PathVariable("id") int id) {
+
+        if (!people.getFullName().equals(peopleDAO.show(id).getFullName()))
+            peopleValidator.validate(people, bindingResult);
 
         if (bindingResult.hasErrors()) return "people/edit";
 

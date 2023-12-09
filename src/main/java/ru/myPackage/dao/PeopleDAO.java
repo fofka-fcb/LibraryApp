@@ -1,6 +1,7 @@
 package ru.myPackage.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,11 @@ public class PeopleDAO {
 
     public People show(int id) {
         return jdbcTemplate.query("SELECT * FROM People WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(People.class))
+                .stream().findAny().orElse(null);
+    }
+
+    public People showByFullName(String fullName) {
+        return jdbcTemplate.query("SELECT * FROM People WHERE full_name=?", new Object[]{fullName},new BeanPropertyRowMapper<>(People.class))
                 .stream().findAny().orElse(null);
     }
 

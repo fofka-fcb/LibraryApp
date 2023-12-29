@@ -10,19 +10,21 @@ import org.springframework.web.bind.annotation.*;
 import ru.myPackage.dao.BookDAO;
 import ru.myPackage.dao.PeopleDAO;
 import ru.myPackage.models.Book;
+import ru.myPackage.services.PeopleService;
 
 @Controller
 @RequestMapping("/book")
 public class BookController {
 
-    private final PeopleDAO peopleDAO;
 
     private final BookDAO bookDAO;
 
+    private final PeopleService peopleService;
+
     @Autowired
-    public BookController(PeopleDAO peopleDAO, BookDAO bookDAO) {
-        this.peopleDAO = peopleDAO;
+    public BookController(BookDAO bookDAO, PeopleService peopleService) {
         this.bookDAO = bookDAO;
+        this.peopleService = peopleService;
     }
 
     @GetMapping
@@ -34,7 +36,7 @@ public class BookController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("book", bookDAO.show(id));
-        modelMap.addAttribute("peoples", peopleDAO.index());
+        modelMap.addAttribute("peoples", peopleService.findAll());
         return "book/show";
     }
 

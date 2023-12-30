@@ -15,12 +15,12 @@
     <input type="submit" value="Delete book"/>
 </form>
 <p th:text="${'ID: ' + book.getId()}">VALUE</p>
-<div th:if="${book.getPeopleID() le 1}">
-    <p th:text="'ID of people: book in library'"></p>
+<div th:if="${book.getOwner() eq null}">
+    <p th:text="'Book in Library'"></p>
     <div>
         <form th:method="PATCH" th:action="@{/book/{id}/updateId(id=${book.getId()})}">
             <label for="idOfPeople">Select id of people</label>
-            <select th:object="${book}" th:field="*{peopleID}" id="idOfPeople">
+            <select th:object="${book}" th:field="*{owner}" id="idOfPeople">
                 <option th:each="people : ${peoples}" th:value="${people.getId()}"
                         th:text="${people.getId() + ' ' + people.getFullName()}">VALUE
                 </option>
@@ -29,8 +29,8 @@
         </form>
     </div>
 </div>
-<div th:if="${book.getPeopleID() gt 1}">
-    <p th:text="${'ID of people: ' + book.getPeopleID()}"></p>
+<div th:if="${book.getOwner() ne null}">
+    <p th:text="${'ID of people: ' + book.getOwner().getId()}"></p>
     <div>
         <form th:method="PATCH" th:action="@{/book/{id}/freeBook(id=${book.getId()})}" th:object="${book}">
             <input type="submit" value="Free the book"/>

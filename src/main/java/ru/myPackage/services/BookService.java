@@ -30,6 +30,17 @@ public class BookService {
         return optionalBook.orElse(null);
     }
 
+//    public People findPeopleWhoTakeBook(int id) {
+//        Optional<Book> optionalBook = bookRepository.findById(id);
+//
+//        if (optionalBook.isPresent()) {
+//            Hibernate.initialize(optionalBook.get().getOwner());
+//            return optionalBook.get().getOwner();
+//        } else {
+//            return null;
+//        }
+//    }
+
     @Transactional
     public void save(Book book) {
         bookRepository.save(book);

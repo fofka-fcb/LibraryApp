@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.myPackage.dao.BookDAO;
 import ru.myPackage.models.People;
 import ru.myPackage.services.PeopleService;
 import ru.myPackage.utils.PeopleValidator;
@@ -17,15 +16,12 @@ import ru.myPackage.utils.PeopleValidator;
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final BookDAO bookDAO;
-
     private final PeopleService peopleService;
 
     private final PeopleValidator peopleValidator;
 
     @Autowired
-    public PeopleController(BookDAO bookDAO, PeopleValidator peopleValidator, PeopleService peopleService) {
-        this.bookDAO = bookDAO;
+    public PeopleController(PeopleValidator peopleValidator, PeopleService peopleService) {
         this.peopleValidator = peopleValidator;
         this.peopleService = peopleService;
     }
@@ -43,7 +39,7 @@ public class PeopleController {
                        ModelMap modelMap) {
 
         modelMap.addAttribute("people", peopleService.findOne(id));
-        modelMap.addAttribute("books", bookDAO.showAllPeopleBook(id));
+        modelMap.addAttribute("books", peopleService.getBooksByPeopleId(id));
 
         return "people/show";
     }

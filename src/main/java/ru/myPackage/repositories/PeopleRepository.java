@@ -8,4 +8,5 @@ import ru.myPackage.models.People;
 public interface PeopleRepository extends JpaRepository<People, Integer> {
 
     People findByFullName(String fullName);
+
 }

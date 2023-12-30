@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,5 +30,8 @@ public class People {
     @Column(name = "dob")
     @NotEmpty(message = "Date of birthday should not be empty")
     String dob;
+
+    @OneToMany(mappedBy = "owner")
+    List<Book> bookList;
 
 }

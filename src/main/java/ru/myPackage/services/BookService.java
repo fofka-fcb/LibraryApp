@@ -1,9 +1,11 @@
 package ru.myPackage.services;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.myPackage.models.Book;
+import ru.myPackage.models.People;
 import ru.myPackage.repositories.BookRepository;
 
 import java.util.List;
@@ -30,16 +32,9 @@ public class BookService {
         return optionalBook.orElse(null);
     }
 
-//    public People findPeopleWhoTakeBook(int id) {
-//        Optional<Book> optionalBook = bookRepository.findById(id);
-//
-//        if (optionalBook.isPresent()) {
-//            Hibernate.initialize(optionalBook.get().getOwner());
-//            return optionalBook.get().getOwner();
-//        } else {
-//            return null;
-//        }
-//    }
+    public People getBookOwner(int id) {
+        return bookRepository.findById(id).map(Book::getOwner).orElse(null);
+    }
 
     @Transactional
     public void save(Book book) {
@@ -48,13 +43,34 @@ public class BookService {
 
     @Transactional
     public void update(int id, Book updateBook) {
+        Book bookToBeUpdated = bookRepository.findById(id).get();
+
         updateBook.setId(id);
+        updateBook.setOwner(bookToBeUpdated.getOwner());
+
         bookRepository.save(updateBook);
     }
 
     @Transactional
     public void delete(int id) {
         bookRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void assign(int id, People selectedPeople) {
+        bookRepository.findById(id).ifPresent(
+                book -> {
+                    book.setOwner(selectedPeople);
+                }
+        );
+    }
+
+    @Transactional
+    public void release(int id) {
+        bookRepository.findById(id).ifPresent(
+                book -> {
+                    book.setOwner(null);
+                });
     }
 
 }

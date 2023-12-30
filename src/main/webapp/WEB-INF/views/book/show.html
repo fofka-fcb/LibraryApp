@@ -15,30 +15,29 @@
     <input type="submit" value="Delete book"/>
 </form>
 <p th:text="${'ID: ' + book.getId()}">VALUE</p>
-<div th:if="${book.getOwner() eq null}">
-    <p th:text="'Book in Library'"></p>
-    <div>
-        <form th:method="PATCH" th:action="@{/book/{id}/updateId(id=${book.getId()})}">
-            <label for="idOfPeople">Select id of people</label>
-            <select th:object="${book}" th:field="*{owner}" id="idOfPeople">
-                <option th:each="people : ${peoples}" th:value="${people.getId()}"
-                        th:text="${people.getId() + ' ' + people.getFullName()}">VALUE
-                </option>
-            </select>
-            <input type="submit" value="Select person"/>
-        </form>
-    </div>
-</div>
-<div th:if="${book.getOwner() ne null}">
-    <p th:text="${'ID of people: ' + book.getOwner().getId()}"></p>
-    <div>
-        <form th:method="PATCH" th:action="@{/book/{id}/freeBook(id=${book.getId()})}" th:object="${book}">
-            <input type="submit" value="Free the book"/>
-        </form>
-    </div>
-</div>
+
 <p th:text="${'Name of book: ' + book.getName()}">VALUE</p>
 <p th:text="${'Author of book: ' + book.getAuthor()}">VALUE</p>
 <p th:text="${'Date of issue: ' + book.getDob()}">VALUE</p>
+
+<div th:if="${owner}">
+    <span>Книга сейчас у: </span> <span th:text="${owner.getFullName()}">Person Name</span>
+
+    <form th:method="PATCH" th:action="@{/book/{id}/freeBook(id=${book.getId()})}">
+        <input type="submit" value="Free the book"/>
+    </form>
+</div>
+
+<div th:if="${allPeople}">
+    <span>Эта книга свободна. Кому назначить ее?</span>
+    <form th:method="PATCH" th:action="@{/book/{id}/updateId(id=${book.getId()})}">
+        <label for="person">Выберите человека</label>
+        <select th:object="${people}" th:field="*{id}" id="person">
+            <option th:each="people : ${allPeople}" th:value="${people.getId()}" th:text="${people.getFullName()}">
+            </option>
+        </select>
+        <input type="submit" value="Select person"/>
+    </form>
+</div>
 </body>
 </html>

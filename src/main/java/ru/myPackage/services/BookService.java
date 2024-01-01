@@ -1,6 +1,5 @@
 package ru.myPackage.services;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +7,7 @@ import ru.myPackage.models.Book;
 import ru.myPackage.models.People;
 import ru.myPackage.repositories.BookRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +61,7 @@ public class BookService {
         bookRepository.findById(id).ifPresent(
                 book -> {
                     book.setOwner(selectedPeople);
+                    book.setTakenAt(new Date());
                 }
         );
     }
@@ -70,6 +71,7 @@ public class BookService {
         bookRepository.findById(id).ifPresent(
                 book -> {
                     book.setOwner(null);
+                    book.setTakenAt(null);
                 });
     }
 

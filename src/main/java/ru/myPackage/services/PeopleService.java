@@ -9,6 +9,7 @@ import ru.myPackage.models.People;
 import ru.myPackage.repositories.PeopleRepository;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,14 @@ public class PeopleService {
 
         if (peopleOptional.isPresent()) {
             Hibernate.initialize(peopleOptional.get().getBookList());
+
+            peopleOptional.get().getBookList().forEach(book -> {
+                if (book.getTakenAt() != null) {
+                    long millis = Math.abs(book.getTakenAt().getTime() - new Date().getTime());
+                    if (millis > 1209600000) book.setExpired(true);
+                }
+            });
+
             return peopleOptional.get().getBookList();
         } else {
             return Collections.emptyList();

@@ -19,7 +19,9 @@
 <p th:text="${people.getDob()}">VALUE</p>
 <p>Книги на руках: </p>
 <div th:each="book : ${books}">
-    <P th:text="${book.getName() + ' ' + book.getAuthor() + ' ' + book.getDob()}"></P>
+    <a th:href="@{/book/{id}(id=${book.getId()})}"
+       th:text="${book.getName() + ' ' + book.getAuthor() + ' ' + book.getDob()}"
+       th:style="${book.isExpired()} ? 'color: red' : 'color: black'"></a>
 </div>
 </body>
 </html>

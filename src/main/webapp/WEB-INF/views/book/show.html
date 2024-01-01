@@ -14,11 +14,16 @@
 <form th:method="DELETE" th:action="@{/book/{id}(id=${book.getId()})}">
     <input type="submit" value="Delete book"/>
 </form>
-<p th:text="${'ID: ' + book.getId()}">VALUE</p>
 
-<p th:text="${'Name of book: ' + book.getName()}">VALUE</p>
-<p th:text="${'Author of book: ' + book.getAuthor()}">VALUE</p>
-<p th:text="${'Date of issue: ' + book.getDob()}">VALUE</p>
+<div>
+    <span>ID: </span> <span th:text="${book.getId()}"></span>
+    <br>
+    <span>Name of book: </span> <span th:text="${book.getName()}"></span>
+    <br>
+    <span>Author of book: </span> <span th:text="${book.getAuthor()}"></span>
+    <br>
+    <span>Date of issue: </span> <span th:text="${book.getDob()}"></span>
+</div>
 
 <div th:if="${owner}">
     <span>Книга сейчас у: </span> <span th:text="${owner.getFullName()}">Person Name</span>
@@ -39,5 +44,6 @@
         <input type="submit" value="Select person"/>
     </form>
 </div>
+
 </body>
 </html>

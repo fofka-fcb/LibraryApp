@@ -26,6 +26,10 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public List<Book> findByTitle(String query) {
+        return bookRepository.findBooksByNameStartingWith(query);
+    }
+
     public Book findOne(int id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
 

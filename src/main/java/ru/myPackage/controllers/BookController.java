@@ -26,8 +26,17 @@ public class BookController {
     }
 
     @GetMapping
-    public String bookIndex(Model model) {
+    public String bookIndex(Model model, @RequestParam(value = "query", required = false) String query) {
+//        if (query != null) model.addAttribute("books", bookService.findByTitle(query));
+//        else model.addAttribute("books", bookService.findAll());
         model.addAttribute("books", bookService.findAll());
+        return "book/index";
+    }
+
+    @PostMapping("/search")
+    public String search(Model model, @RequestParam(value = "query", required = false) String query) {
+        if (query != null) model.addAttribute("books", bookService.findByTitle(query));
+        else model.addAttribute("books", bookService.findAll());
         return "book/index";
     }
 

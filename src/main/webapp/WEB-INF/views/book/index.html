@@ -5,15 +5,30 @@
     <title>All books</title>
 </head>
 <body>
+
 <form th:method="GET" th:action="@{/start}">
     <input type="submit" value="Back"/>
 </form>
+
 <form th:method="GET" th:action="@{/book/new}">
     <input type="submit" value="New book"/>
 </form>
-<div th:each="book : ${books}">
-    <a th:href="@{/book/{id}(id=${book.getId()})}"
-       th:text="${book.getName() + ' ' + book.getAuthor() + ' ' + book.getDob()}"></a>
+
+<form th:method="POST" th:action="@{/book/search}">
+    <label for="query">Search books: </label>
+    <input type="text" id="query" name="query"/>
+    <br/>
+    <input type="submit" value="Search!"/>
+</form>
+
+<div th:if="${!books.isEmpty()}">
+    <div th:each="book : ${books}">
+        <a th:href="@{/book/{id}(id=${book.getId()})}"
+           th:text="${book.getName() + ' ' + book.getAuthor() + ' ' + book.getDob()}"></a>
+    </div>
+</div>
+<div th:if="${books.isEmpty()}">
+    <span>Books not found</span>
 </div>
 </body>
 </html>
